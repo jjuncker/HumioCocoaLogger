@@ -1,0 +1,6 @@
+framework module Pods_HumioCocoaLumberjack {
+  umbrella header "Pods-HumioCocoaLumberjack-umbrella.h"
+
+  export *
+  module * { export * }
+}

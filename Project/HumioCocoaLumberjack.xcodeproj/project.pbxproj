@@ -1,0 +1,389 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BF765B5F1DBA27E100250B7B /* Classes in Resources */ = {isa = PBXBuildFile; fileRef = BF765B5E1DBA27E100250B7B /* Classes */; };
+		BF765B621DBA282600250B7B /* HumioLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF765B611DBA282600250B7B /* HumioLogger.swift */; };
+		BFC7A7A11D05830D000DC351 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC7A7A01D05830D000DC351 /* AppDelegate.swift */; };
+		BFC7A7A31D05830D000DC351 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC7A7A21D05830D000DC351 /* ViewController.swift */; };
+		BFC7A7A61D05830D000DC351 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFC7A7A41D05830D000DC351 /* Main.storyboard */; };
+		BFC7A7A81D05830D000DC351 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFC7A7A71D05830D000DC351 /* Assets.xcassets */; };
+		BFC7A7AB1D05830D000DC351 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFC7A7A91D05830D000DC351 /* LaunchScreen.storyboard */; };
+		EC76E86D0712B09AE671B31E /* Pods_HumioCocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B05512F87E2775A07ACE36 /* Pods_HumioCocoaLumberjack.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		045A525A0FD372DC3E940A4E /* Pods-HumioCocoaLumberjack.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HumioCocoaLumberjack.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HumioCocoaLumberjack/Pods-HumioCocoaLumberjack.debug.xcconfig"; sourceTree = "<group>"; };
+		0D754FF88837A420E33CB9C8 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D2269921A05550A2131A873 /* Pods-HumioCocoaLumberjack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HumioCocoaLumberjack.release.xcconfig"; path = "Pods/Target Support Files/Pods-HumioCocoaLumberjack/Pods-HumioCocoaLumberjack.release.xcconfig"; sourceTree = "<group>"; };
+		BF765B5E1DBA27E100250B7B /* Classes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Classes; path = /Users/jimmy/Work/HumioCocoaLogger/Classes; sourceTree = "<absolute>"; };
+		BF765B611DBA282600250B7B /* HumioLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HumioLogger.swift; path = ../Classes/HumioLogger.swift; sourceTree = "<group>"; };
+		BFC7A79D1D05830D000DC351 /* HumioCocoaLumberjack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HumioCocoaLumberjack.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFC7A7A01D05830D000DC351 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BFC7A7A21D05830D000DC351 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BFC7A7A51D05830D000DC351 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BFC7A7A71D05830D000DC351 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BFC7A7AA1D05830D000DC351 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BFC7A7AC1D05830D000DC351 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E5B05512F87E2775A07ACE36 /* Pods_HumioCocoaLumberjack.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HumioCocoaLumberjack.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BFC7A79A1D05830D000DC351 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC76E86D0712B09AE671B31E /* Pods_HumioCocoaLumberjack.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		44EF351F9E903B3D07218489 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0D754FF88837A420E33CB9C8 /* Pods.framework */,
+				E5B05512F87E2775A07ACE36 /* Pods_HumioCocoaLumberjack.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		60F86AE87FD8DD0BFE1BABFB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				045A525A0FD372DC3E940A4E /* Pods-HumioCocoaLumberjack.debug.xcconfig */,
+				6D2269921A05550A2131A873 /* Pods-HumioCocoaLumberjack.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		BFC7A7941D05830D000DC351 = {
+			isa = PBXGroup;
+			children = (
+				BF765B611DBA282600250B7B /* HumioLogger.swift */,
+				BFC7A79F1D05830D000DC351 /* HumioCocoaLumberjack */,
+				BFC7A79E1D05830D000DC351 /* Products */,
+				44EF351F9E903B3D07218489 /* Frameworks */,
+				60F86AE87FD8DD0BFE1BABFB /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		BFC7A79E1D05830D000DC351 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BFC7A79D1D05830D000DC351 /* HumioCocoaLumberjack.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BFC7A79F1D05830D000DC351 /* HumioCocoaLumberjack */ = {
+			isa = PBXGroup;
+			children = (
+				BFC7A7A01D05830D000DC351 /* AppDelegate.swift */,
+				BFC7A7A21D05830D000DC351 /* ViewController.swift */,
+				BFC7A7A41D05830D000DC351 /* Main.storyboard */,
+				BFC7A7A71D05830D000DC351 /* Assets.xcassets */,
+				BFC7A7A91D05830D000DC351 /* LaunchScreen.storyboard */,
+				BFC7A7AC1D05830D000DC351 /* Info.plist */,
+			);
+			path = HumioCocoaLumberjack;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BFC7A79C1D05830D000DC351 /* HumioCocoaLumberjack */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BFC7A7AF1D05830D000DC351 /* Build configuration list for PBXNativeTarget "HumioCocoaLumberjack" */;
+			buildPhases = (
+				FA883809ADE87A63B148C713 /* [CP] Check Pods Manifest.lock */,
+				BFC7A7991D05830D000DC351 /* Sources */,
+				BFC7A79A1D05830D000DC351 /* Frameworks */,
+				BFC7A79B1D05830D000DC351 /* Resources */,
+				E2BF6FAB63D5CCDCBCF057E1 /* [CP] Embed Pods Frameworks */,
+				FE44E750C7AED29A337FEF72 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HumioCocoaLumberjack;
+			productName = HumioCocoaLumberjack;
+			productReference = BFC7A79D1D05830D000DC351 /* HumioCocoaLumberjack.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFC7A7951D05830D000DC351 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Trifork A/S";
+				TargetAttributes = {
+					BFC7A79C1D05830D000DC351 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 9KPQV995W2;
+						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = BFC7A7981D05830D000DC351 /* Build configuration list for PBXProject "HumioCocoaLumberjack" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BFC7A7941D05830D000DC351;
+			productRefGroup = BFC7A79E1D05830D000DC351 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BFC7A79C1D05830D000DC351 /* HumioCocoaLumberjack */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BFC7A79B1D05830D000DC351 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFC7A7AB1D05830D000DC351 /* LaunchScreen.storyboard in Resources */,
+				BF765B5F1DBA27E100250B7B /* Classes in Resources */,
+				BFC7A7A81D05830D000DC351 /* Assets.xcassets in Resources */,
+				BFC7A7A61D05830D000DC351 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E2BF6FAB63D5CCDCBCF057E1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HumioCocoaLumberjack/Pods-HumioCocoaLumberjack-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FA883809ADE87A63B148C713 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FE44E750C7AED29A337FEF72 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HumioCocoaLumberjack/Pods-HumioCocoaLumberjack-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BFC7A7991D05830D000DC351 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF765B621DBA282600250B7B /* HumioLogger.swift in Sources */,
+				BFC7A7A31D05830D000DC351 /* ViewController.swift in Sources */,
+				BFC7A7A11D05830D000DC351 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BFC7A7A41D05830D000DC351 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BFC7A7A51D05830D000DC351 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		BFC7A7A91D05830D000DC351 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BFC7A7AA1D05830D000DC351 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BFC7A7AD1D05830D000DC351 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BFC7A7AE1D05830D000DC351 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BFC7A7B01D05830D000DC351 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 045A525A0FD372DC3E940A4E /* Pods-HumioCocoaLumberjack.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9KPQV995W2;
+				INFOPLIST_FILE = HumioCocoaLumberjack/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.humio.test;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
+			};
+			name = Debug;
+		};
+		BFC7A7B11D05830D000DC351 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6D2269921A05550A2131A873 /* Pods-HumioCocoaLumberjack.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9KPQV995W2;
+				INFOPLIST_FILE = HumioCocoaLumberjack/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.humio.test;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BFC7A7981D05830D000DC351 /* Build configuration list for PBXProject "HumioCocoaLumberjack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFC7A7AD1D05830D000DC351 /* Debug */,
+				BFC7A7AE1D05830D000DC351 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BFC7A7AF1D05830D000DC351 /* Build configuration list for PBXNativeTarget "HumioCocoaLumberjack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFC7A7B01D05830D000DC351 /* Debug */,
+				BFC7A7B11D05830D000DC351 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFC7A7951D05830D000DC351 /* Project object */;
+}
