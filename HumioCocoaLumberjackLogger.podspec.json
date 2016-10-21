@@ -1,0 +1,28 @@
+{
+  "name": "HumioCocoaLumberjackLogger",
+  "version": "0.1",
+  "summary": "Lumberjack logger for Humio",
+  "description": "Send your Lumberjack logging directly to Humio",
+  "homepage": "https://cloud.humio.com",
+  "authors": {
+    "Jimmy Juncker": "jimmy.juncker@gmail.com"
+  },
+  "licence": {
+	  "file":"BSD"
+  },
+  "platforms": {
+	"ios": "8.0"
+  },
+  "source": {
+    "git": "https://github.com/jjuncker/HumioCocoaLumberjackLogger",
+    "commit": ""
+  },
+  "source_files": [
+    "Classes/HumioLogger.swift"	
+  ],
+  "dependencies": {
+          "CocoaLumberjack":[
+		  	"2.4.0"
+          ]
+  }
+}
