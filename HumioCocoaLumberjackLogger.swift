@@ -10,7 +10,7 @@ import CocoaLumberjack
 
 //TODO - store cache on filesystem + add encryption
 
-class HumioLogger: DDAbstractLogger {
+class HumioCocoaLumberjackLogger: DDAbstractLogger {
     private static let LOGGER_NAME = "HumioLogger"
     private static let HUMIO_ENDPOINT_FORMAT = "https://cloud.humio.com/api/v1/dataspaces/%@/ingest"
     private let accessToken:String
@@ -57,7 +57,7 @@ class HumioLogger: DDAbstractLogger {
         space = space ?? NSBundle.mainBundle().infoDictionary!["HumioDataSpace"] as? String
         
         if let space = space, let token = token {
-            self.humioServiceUrl = NSURL(string: String(format: HumioLogger.HUMIO_ENDPOINT_FORMAT, space ?? ""))!
+            self.humioServiceUrl = NSURL(string: String(format: HumioCocoaLumberjackLogger.HUMIO_ENDPOINT_FORMAT, space ?? ""))!
             self.accessToken = token
         } else {
             fatalError("dataSpace or accessToken not properly set for humio")
@@ -70,7 +70,7 @@ class HumioLogger: DDAbstractLogger {
         } else {
             self.tags = ["platform":"ios",
                          "CFBundleIdentifier": (NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleIdentifier") ?? "unknown bundle CFBundleIdentifier") as! String,
-                         "source":HumioLogger.LOGGER_NAME,
+                         "source":HumioCocoaLumberjackLogger.LOGGER_NAME,
                          "CFBundleShortVersionString": (NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") ?? "unknown bundle CFBundleShortVersionString") as! String,
                          "CFBundleVersion": (NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") ?? "unknown bundle CFBundleVersion") as! String
             ]
@@ -144,7 +144,7 @@ class HumioLogger: DDAbstractLogger {
     }
     
     override var loggerName: String! { get {
-        return HumioLogger.LOGGER_NAME
+        return HumioCocoaLumberjackLogger.LOGGER_NAME
         }
     }
     
@@ -154,11 +154,11 @@ class HumioLogger: DDAbstractLogger {
     }
 }
 
-extension HumioLogger : NSURLSessionDelegate {
+extension HumioCocoaLumberjackLogger : NSURLSessionDelegate {
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
         if self.verbose {
-            print("HumioLogger: request", task.originalRequest!.allHTTPHeaderFields, "body: ", NSString(data: task.originalRequest!.HTTPBody!, encoding: NSUTF8StringEncoding))
-            print("HumioLogger: response", task.response)
+            print("HumioCocoaLumberjackLogger: request", task.originalRequest!.allHTTPHeaderFields, "body: ", NSString(data: task.originalRequest!.HTTPBody!, encoding: NSUTF8StringEncoding))
+            print("HumioCocoaLumberjackLogger: response", task.response)
         }
         
         if (error == nil) {

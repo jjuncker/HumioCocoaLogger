@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BF765B5F1DBA27E100250B7B /* Classes in Resources */ = {isa = PBXBuildFile; fileRef = BF765B5E1DBA27E100250B7B /* Classes */; };
-		BF765B621DBA282600250B7B /* HumioLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF765B611DBA282600250B7B /* HumioLogger.swift */; };
+		BF765B621DBA282600250B7B /* HumioCocoaLumberjackLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF765B611DBA282600250B7B /* HumioCocoaLumberjackLogger.swift */; };
 		BFC7A7A11D05830D000DC351 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC7A7A01D05830D000DC351 /* AppDelegate.swift */; };
 		BFC7A7A31D05830D000DC351 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC7A7A21D05830D000DC351 /* ViewController.swift */; };
 		BFC7A7A61D05830D000DC351 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFC7A7A41D05830D000DC351 /* Main.storyboard */; };
@@ -22,7 +22,7 @@
 		0D754FF88837A420E33CB9C8 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D2269921A05550A2131A873 /* Pods-HumioCocoaLumberjack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HumioCocoaLumberjack.release.xcconfig"; path = "Pods/Target Support Files/Pods-HumioCocoaLumberjack/Pods-HumioCocoaLumberjack.release.xcconfig"; sourceTree = "<group>"; };
 		BF765B5E1DBA27E100250B7B /* Classes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Classes; path = /Users/jimmy/Work/HumioCocoaLogger/Classes; sourceTree = "<absolute>"; };
-		BF765B611DBA282600250B7B /* HumioLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HumioLogger.swift; path = ../Classes/HumioLogger.swift; sourceTree = "<group>"; };
+		BF765B611DBA282600250B7B /* HumioCocoaLumberjackLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HumioCocoaLumberjackLogger.swift; path = ../Classes/HumioCocoaLumberjackLogger.swift; sourceTree = "<group>"; };
 		BFC7A79D1D05830D000DC351 /* HumioCocoaLumberjack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HumioCocoaLumberjack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFC7A7A01D05830D000DC351 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFC7A7A21D05830D000DC351 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,7 +66,7 @@
 		BFC7A7941D05830D000DC351 = {
 			isa = PBXGroup;
 			children = (
-				BF765B611DBA282600250B7B /* HumioLogger.swift */,
+				BF765B611DBA282600250B7B /* HumioCocoaLumberjackLogger.swift */,
 				BFC7A79F1D05830D000DC351 /* HumioCocoaLumberjack */,
 				BFC7A79E1D05830D000DC351 /* Products */,
 				44EF351F9E903B3D07218489 /* Frameworks */,
@@ -221,7 +221,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF765B621DBA282600250B7B /* HumioLogger.swift in Sources */,
+				BF765B621DBA282600250B7B /* HumioCocoaLumberjackLogger.swift in Sources */,
 				BFC7A7A31D05830D000DC351 /* ViewController.swift in Sources */,
 				BFC7A7A11D05830D000DC351 /* AppDelegate.swift in Sources */,
 			);

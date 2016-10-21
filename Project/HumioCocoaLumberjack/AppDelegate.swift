@@ -15,15 +15,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         DDLog.addLogger(DDTTYLogger.sharedInstance())
         
-        //let logger = HumioLogger(accessToken: "your token here", dataSpace:"some dataspace")
+        //let logger = HumioCocoaLumberjackLogger(accessToken: "your token here", dataSpace:"some dataspace")
         
         //or if you set up the info plist:
-        let logger = HumioLogger()
+        let logger = HumioCocoaLumberjackLogger()
 
         //logger.verbose = true //prints the requests/responses from humio
         
         DDLog.addLogger(logger, withLevel:.Error)
-        DDLog.setLevel(.Error, forClass: HumioLogger.self)
+        DDLog.setLevel(.Error, forClass: HumioCocoaLumberjackLogger.self)
                 
         return true
     }
