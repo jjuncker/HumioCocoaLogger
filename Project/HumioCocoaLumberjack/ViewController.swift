@@ -13,11 +13,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         DDLogVerbose("Verbose");
-        DDLogDebug("Debug");
         DDLogInfo("Info");
         DDLogWarn("Warn");
         
         DDLogError("user=asdf app=test");
+        DDLogDebug("msg='Some random message'");
 
     }
 }
