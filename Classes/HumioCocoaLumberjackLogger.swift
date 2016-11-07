@@ -10,8 +10,8 @@ import CocoaLumberjack
 import CoreFoundation
 
 public struct HumioLoggerConfiguration {
-    var cachePolicy:NSURLRequestCachePolicy = .UseProtocolCachePolicy
-    var timeout:NSTimeInterval = 10
+    var cachePolicy:NSURLRequest.CachePolicy = .useProtocolCachePolicy
+    var timeout:TimeInterval = 10
     var allowsCellularAccess = true
     var bulkSize = 1
 
@@ -25,14 +25,14 @@ public protocol HumioLogger: DDLogger  {
 }
 
 public class HumioLoggerFactory {
-    public class func createLogger(accessToken:String?=nil, dataSpace:String?=nil, loggerId:String=NSUUID().UUIDString, tags:[String:String] = HumioLoggerFactory.defaultTags(), configuration:HumioLoggerConfiguration=HumioLoggerConfiguration.defaultConfiguration()) -> HumioLogger {
+    public class func createLogger(accessToken:String?=nil, dataSpace:String?=nil, loggerId:String=NSUUID().uuidString, tags:[String:String] = HumioLoggerFactory.defaultTags(), configuration:HumioLoggerConfiguration=HumioLoggerConfiguration.defaultConfiguration()) -> HumioLogger {
         return HumioCocoaLumberjackLogger(accessToken: accessToken, dataSpace: dataSpace, loggerId:loggerId, tags: tags, configuration: configuration)
     }
 
     public class func defaultTags() -> [String:String] {
         return [
             "platform":"ios",
-            "bundleIdentifier": (NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleIdentifier") ?? "unknown") as! String,
+            "bundleIdentifier": (Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier") ?? "unknown") as! String,
             "source":HumioCocoaLumberjackLogger.LOGGER_NAME
         ]
     }
@@ -43,24 +43,24 @@ public class HumioLoggerFactory {
 class HumioCocoaLumberjackLogger: DDAbstractLogger {
     private let loggerId:String
 
-    private static let LOGGER_NAME = "MobileDeviceLogger"
+    fileprivate static let LOGGER_NAME = "MobileDeviceLogger"
     private static let HUMIO_ENDPOINT_FORMAT = "https://cloud.humio.com/api/v1/dataspaces/%@/ingest"
     private let accessToken:String
-    private var session:NSURLSession!
-    private let humioServiceUrl:NSURL
-    private let cachePolicy:NSURLRequestCachePolicy
-    private let timeout:NSTimeInterval
+    private var session:URLSession!
+    private let humioServiceUrl:URL
+    private let cachePolicy:URLRequest.CachePolicy
+    private let timeout:TimeInterval
     private let tags:[String:String]
     private let bulksize:Int
     private let attributes:[String:String]
 
-    private let bundleVersion = (NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") ?? "unknown") as! String
-    private let bundleShortVersion = (NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") ?? "unknown") as! String
-    private let deviceName = UIDevice.currentDevice().name
+    private let bundleVersion = (Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? "unknown") as! String
+    private let bundleShortVersion = (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "unknown") as! String
+    private let deviceName = UIDevice.current.name
 
 
-    internal var cache:[NSDictionary]
-    private let logQueue:NSOperationQueue
+    internal var cache:[[String:Any]]
+    private let logQueue:OperationQueue
     
     internal var _verbose:Bool
 
@@ -85,87 +85,88 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
     init(accessToken:String?=nil, dataSpace:String?=nil, loggerId:String, tags:[String:String], configuration:HumioLoggerConfiguration) {
         self.loggerId = loggerId
 
-        var token:String? = accessToken
-        token = token ?? NSBundle.mainBundle().infoDictionary!["HumioAccessToken"] as? String
+        var setToken:String? = accessToken
+        setToken = setToken ?? Bundle.main.infoDictionary!["HumioAccessToken"] as? String
 
-        var space:String? = dataSpace
-        space = space ?? NSBundle.mainBundle().infoDictionary!["HumioDataSpace"] as? String
-        
-        if space?.characters.count > 0 && token?.characters.count > 0 {
-            self.humioServiceUrl = NSURL(string: String(format: HumioCocoaLumberjackLogger.HUMIO_ENDPOINT_FORMAT, space! ?? ""))!
-            self.accessToken = token!
-        } else {
-            fatalError("dataSpace [\(space)] or accessToken [\(token)] not properly set for humio")
+        var setSpace:String? = dataSpace
+        setSpace = setSpace ?? Bundle.main.infoDictionary!["HumioDataSpace"] as? String
+
+        guard let space = setSpace, let token = setToken, space.characters.count > 0 && token.characters.count > 0 else {
+            fatalError("dataSpace [\(setSpace)] or accessToken [\(setToken)] not properly set for humio")
         }
-        
+
+        self.humioServiceUrl = URL(string: String(format: HumioCocoaLumberjackLogger.HUMIO_ENDPOINT_FORMAT, space))!
+        self.accessToken = setToken!
+
         self.cachePolicy = configuration.cachePolicy
         self.timeout = configuration.timeout
         self.tags = tags
         self._verbose = false
         self.bulksize = configuration.bulkSize
         
-        let sessionConfiguration = NSURLSessionConfiguration.ephemeralSessionConfiguration()
+        let sessionConfiguration = URLSessionConfiguration.ephemeral
         sessionConfiguration.allowsCellularAccess = configuration.allowsCellularAccess
         sessionConfiguration.timeoutIntervalForResource = timeout
         
         self.cache = [[String:AnyObject]]()
         
-        self.logQueue = NSOperationQueue()
-        logQueue.qualityOfService = .Background
+        self.logQueue = OperationQueue()
+        logQueue.qualityOfService = .background
         logQueue.maxConcurrentOperationCount = 1
 
         self.attributes = ["loggerId":self.loggerId, "deviceName":self.deviceName, "CFBundleVersion":self.bundleVersion, "CFBundleShortVersionString":self.bundleShortVersion]
 
         super.init()
         
-        let operationQueue = NSOperationQueue()
-        operationQueue.qualityOfService = .Background
+        let operationQueue = OperationQueue()
+        operationQueue.qualityOfService = .background
         operationQueue.maxConcurrentOperationCount = 1
         
-        self.session = NSURLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: operationQueue)
+        self.session = URLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: operationQueue)
         self.logFormatter = SimpleHumioLogFormatter()
 
     }
-    
-    override func logMessage(logMessage: DDLogMessage!) {
-        var messageText = logMessage.message
+
+
+    override func log(message: DDLogMessage!) {
+        var messageText = message.message
         if let logFormatter = internalLogFormatter {
-            messageText = logFormatter.formatLogMessage(logMessage)
+            messageText = logFormatter.format(message: message)
         }
 
 
-        let event = ["timestamp":NSDate().timeIntervalSince1970*1000, //ms
+        let event = ["timestamp":Date().timeIntervalSince1970*1000, //ms
                      "kvparse":true,
                      "attributes":self.attributes,
-                     "rawstring":messageText
-                    ]
+                     "rawstring":messageText!
+                    ] as [String : Any]
 
-        self.logQueue.addOperationWithBlock {
+        self.logQueue.addOperation {
             if (self.bulksize <= 1 && self.cache.count == 0) {
-                self.postEvents([event])
+                self.postEvents(events: [event])
             } else {
                 self.cache.append(event)
-                self.postEvents(self.cache)
+                self.postEvents(events: self.cache)
             }
         }
     }
     
-    private func postEvents(events:[NSDictionary]) {
+    private func postEvents(events:[[String:Any]]) {
         let jsonDict:[NSDictionary] = [["tags": self.tags,
             "events": events
             ]]
         
         do {
-            let jsonData = try NSJSONSerialization.dataWithJSONObject(jsonDict,
-                                                                      options:.PrettyPrinted)
-            let request = NSMutableURLRequest(URL:self.humioServiceUrl, cachePolicy: self.cachePolicy, timeoutInterval: self.timeout)
+            let jsonData = try JSONSerialization.data(withJSONObject: jsonDict,
+                                                      options:.prettyPrinted)
+            var request = URLRequest(url:self.humioServiceUrl, cachePolicy: self.cachePolicy, timeoutInterval: self.timeout)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("Bearer " + self.accessToken, forHTTPHeaderField: "Authorization")
             
-            request.HTTPBody = jsonData
-            request.HTTPMethod = "POST"
+            request.httpBody = jsonData
+            request.httpMethod = "POST"
             
-            let task = self.session.dataTaskWithRequest(request)
+            let task = self.session.dataTask(with: request)
             task.resume()
         } catch { 
             if self._verbose {
@@ -180,18 +181,18 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
     }
     
     override func flush() {
-        self.session.flushWithCompletionHandler { 
+        self.session.flush {
         }
     }
 }
 
-extension HumioCocoaLumberjackLogger : NSURLSessionDelegate {
-    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
+extension HumioCocoaLumberjackLogger : URLSessionDelegate {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         if self._verbose {
-            print("HumioCocoaLumberjackLogger: request", task.originalRequest!.allHTTPHeaderFields, "body: ", NSString(data: task.originalRequest!.HTTPBody!, encoding: NSUTF8StringEncoding))
-            print("HumioCocoaLumberjackLogger: response", task.response)
+            print("HumioCocoaLumberjackLogger: request", task.originalRequest!.allHTTPHeaderFields!, "body: ", String(data: task.originalRequest!.httpBody!, encoding: String.Encoding.utf8)!)
+            print("HumioCocoaLumberjackLogger: response", task.response!)
         }
-        
+
         if (error == nil) {
             //TODO this may remove unsend entries
             self.cache.removeAll()
@@ -200,22 +201,22 @@ extension HumioCocoaLumberjackLogger : NSURLSessionDelegate {
 }
 
 final class SimpleHumioLogFormatter: NSObject, DDLogFormatter {
-    func formatLogMessage(logMessage: DDLogMessage!) -> String! {
-        return "logLevel=\(self.logLevelString(logMessage)) filename='\(logMessage.fileName)' line=\(logMessage.line) \(logMessage.message)"
+    func format(message: DDLogMessage!) -> String! {
+        return "logLevel=\(self.logLevelString(message)) filename='\(message.fileName)' line=\(message.line) \(message.message)"
     }
     
-    func logLevelString(logMessage: DDLogMessage!) -> String {
+    func logLevelString(_ logMessage: DDLogMessage!) -> String {
         let logLevel: String
         let logFlag = logMessage.flag
-        if logFlag.contains(.Error) {
+        if logFlag.contains(.error) {
             logLevel = "ERROR"
-        } else if logFlag.contains(.Warning) {
+        } else if logFlag.contains(.warning) {
             logLevel = "WARNING"
-        } else if logFlag.contains(.Info) {
+        } else if logFlag.contains(.info) {
             logLevel = "INFO"
-        } else if logFlag.contains(.Debug) {
+        } else if logFlag.contains(.debug) {
             logLevel = "DEBUG"
-        } else if logFlag.contains(.Verbose) {
+        } else if logFlag.contains(.verbose) {
             logLevel = "VERBOSE"
         } else {
             logLevel = "UNKNOWN"
