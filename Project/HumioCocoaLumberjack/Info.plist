@@ -21,9 +21,9 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>HumioAccessToken</key>
-	<string>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImppbW15Lmp1bmNrZXJAZ21haWwuY29tIn0.dcbvDVnqSFS0UlmuDzdeQFoJCe6OAonf-5hiLZruEw8</string>
+	<string></string>
 	<key>HumioDataSpace</key>
-	<string>esbjerg</string>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
