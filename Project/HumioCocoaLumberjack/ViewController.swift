@@ -19,5 +19,11 @@ class ViewController: UIViewController {
         DDLogError("user=asdf app=test");
         DDLogDebug("msg='Some random message'");
 
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            DDLogError("user=asdf2 app=test2");
+        }
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            DDLogError("user=asdf3 app=test3");
+        }
     }
 }

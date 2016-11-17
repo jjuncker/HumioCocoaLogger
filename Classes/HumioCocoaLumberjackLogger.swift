@@ -12,8 +12,9 @@ import CoreFoundation
 public struct HumioLoggerConfiguration {
     var cachePolicy:NSURLRequest.CachePolicy = .useProtocolCachePolicy
     var timeout:TimeInterval = 10
+    var postFrequency:TimeInterval = 10
+    var retryCount:Int = 2
     var allowsCellularAccess = true
-    var bulkSize = 1
 
     static func defaultConfiguration() -> HumioLoggerConfiguration {
         return HumioLoggerConfiguration()
@@ -38,31 +39,33 @@ public class HumioLoggerFactory {
     }
 }
 
-//TODO - store cache on filesystem + add encryption
-
 class HumioCocoaLumberjackLogger: DDAbstractLogger {
     private let loggerId:String
 
+    fileprivate var taskDescriptionToCount = [String:Int]()
     fileprivate static let LOGGER_NAME = "MobileDeviceLogger"
-    private static let HUMIO_ENDPOINT_FORMAT = "https://cloud.humio.com/api/v1/dataspaces/%@/ingest"
+    fileprivate static let HUMIO_ENDPOINT_FORMAT = "https://cloud.humio.com/api/v1/dataspaces/%@/ingest"
+
     private let accessToken:String
     private var session:URLSession!
     private let humioServiceUrl:URL
     private let cachePolicy:URLRequest.CachePolicy
     private let timeout:TimeInterval
     private let tags:[String:String]
-    private let bulksize:Int
+    private let postFrequency:TimeInterval
+    private let retryCount:Int
     private let attributes:[String:String]
 
     private let bundleVersion = (Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? "unknown") as! String
     private let bundleShortVersion = (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "unknown") as! String
     private let deviceName = UIDevice.current.name
 
+    fileprivate let humioQueue:OperationQueue
+    private var timer:Timer?
 
-    internal var cache:[[String:Any]]
-    private let logQueue:OperationQueue
-    
+    internal var cache:[Any]
     internal var _verbose:Bool
+
 
     // ###########################################################################
     // Fails when formatting using the logformatter from parent
@@ -102,18 +105,18 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
         self.timeout = configuration.timeout
         self.tags = tags
         self._verbose = false
-        self.bulksize = configuration.bulkSize
-        
+        self.postFrequency = configuration.postFrequency
+        self.retryCount = configuration.retryCount
+
         let sessionConfiguration = URLSessionConfiguration.ephemeral
         sessionConfiguration.allowsCellularAccess = configuration.allowsCellularAccess
         sessionConfiguration.timeoutIntervalForResource = timeout
         
-        self.cache = [[String:AnyObject]]()
+        self.cache = [Any]()
         
-        self.logQueue = OperationQueue()
-        logQueue.qualityOfService = .background
-        logQueue.maxConcurrentOperationCount = 1
-
+        self.humioQueue = OperationQueue()
+        humioQueue.qualityOfService = .background
+        humioQueue.maxConcurrentOperationCount = 1
         self.attributes = ["loggerId":self.loggerId, "deviceName":self.deviceName, "CFBundleVersion":self.bundleVersion, "CFBundleShortVersionString":self.bundleShortVersion]
 
         super.init()
@@ -125,6 +128,9 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
         self.session = URLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: operationQueue)
         self.logFormatter = SimpleHumioLogFormatter()
 
+        DispatchQueue.main.async {
+            self.timer = Timer.scheduledTimer(timeInterval: self.postFrequency, target: self, selector: #selector(self.ingest), userInfo: nil, repeats: true)
+        }
     }
 
 
@@ -134,68 +140,117 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
             messageText = logFormatter.format(message: message)
         }
 
-
         let event = ["timestamp":Date().timeIntervalSince1970*1000, //ms
                      "kvparse":true,
                      "attributes":self.attributes,
                      "rawstring":messageText!
                     ] as [String : Any]
 
-        self.logQueue.addOperation {
-            if (self.bulksize <= 1 && self.cache.count == 0) {
-                self.postEvents(events: [event])
-            } else {
-                self.cache.append(event)
-                self.postEvents(events: self.cache)
-            }
+        self.humioQueue.addOperation {
+            self.cache.append(event)
         }
     }
-    
-    private func postEvents(events:[[String:Any]]) {
+
+    @objc func ingest() {
+        self.humioQueue.isSuspended = true
+
+        let eventsToPost = [Any](self.cache)
+        if (eventsToPost.count == 0) {
+            self.humioQueue.isSuspended = false
+            return
+        }
+
+        let postBlock = BlockOperation() {
+            self.cache.removeAll()
+            if let request = self.createRequest(events: eventsToPost) {
+                self.sendRequest(request: request)
+            }
+        }
+
+        self.humioQueue.operations.forEach({ op in
+            op.addDependency(postBlock)
+        })
+
+        self.humioQueue.addOperation(postBlock)
+        self.humioQueue.isSuspended = false
+    }
+
+    private func createRequest(events:[Any]) -> URLRequest? {
         let jsonDict:[NSDictionary] = [["tags": self.tags,
             "events": events
             ]]
-        
+
+        if (self._verbose) {
+            print("HumioCocoaLumberjackLogger: About to post \(events.count) events")
+        }
+
         do {
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonDict,
-                                                      options:.prettyPrinted)
+            let jsonData = try JSONSerialization.data(withJSONObject: jsonDict, options:[])
             var request = URLRequest(url:self.humioServiceUrl, cachePolicy: self.cachePolicy, timeoutInterval: self.timeout)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("Bearer " + self.accessToken, forHTTPHeaderField: "Authorization")
             
             request.httpBody = jsonData
             request.httpMethod = "POST"
-            
-            let task = self.session.dataTask(with: request)
-            task.resume()
-        } catch { 
+
+
+            return request
+        } catch {
             if self._verbose {
-                print("failed to add requst to humio")
+                print("HumioCocoaLumberjackLogger: Failed to add requst to humio. Most likely the JSON is invalid: \(jsonDict)")
             }
         }
+        return nil
     }
-    
-    override var loggerName: String! { get {
-        return HumioCocoaLumberjackLogger.LOGGER_NAME
+
+    fileprivate func sendRequest(request:URLRequest, taskDescription:String = UUID().uuidString) {
+        self.humioQueue.addOperation {
+            let requestCount = self.taskDescriptionToCount[taskDescription] ?? 0
+            if requestCount > self.retryCount {
+                if self._verbose {
+                    print("HumioCocoaLumberjackLogger: Giving up on request after \(self.retryCount) retries")
+                }
+                self.taskDescriptionToCount.removeValue(forKey: taskDescription)
+                return
+            }
+
+            self.taskDescriptionToCount[taskDescription] = requestCount + 1
+            let task = self.session.dataTask(with: request)
+            task.taskDescription = taskDescription
+            task.resume()
+        }
+    }
+
+    override var loggerName: String! {
+        get {
+            return HumioCocoaLumberjackLogger.LOGGER_NAME
         }
     }
     
     override func flush() {
-        self.session.flush {
-        }
+        self.session.flush {}
     }
 }
 
-extension HumioCocoaLumberjackLogger : URLSessionDelegate {
+extension HumioCocoaLumberjackLogger : URLSessionDataDelegate {
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         if self._verbose {
             print("HumioCocoaLumberjackLogger: request", task.originalRequest!.allHTTPHeaderFields!, "body: ", String(data: task.originalRequest!.httpBody!, encoding: String.Encoding.utf8)!)
             print("HumioCocoaLumberjackLogger: response", task.response!)
         }
 
-        if (error == nil) {
-            //TODO this may remove unsend entries
-            self.cache.removeAll()
+        if let originalRequest = task.originalRequest, error != nil {
+            if self._verbose {
+                print("HumioCocoaLumberjackLogger: failed to send data, retrying in 5 seconds. Error \(error)")
+            }
+
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: DispatchTime.now() + 5.0, execute: {
+                self.sendRequest(request: originalRequest, taskDescription: task.taskDescription!)
+            })
+        } else {
+            self.humioQueue.addOperation {
+                self.taskDescriptionToCount.removeValue(forKey: task.taskDescription!)
+            }
         }
     }
 }
