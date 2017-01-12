@@ -143,7 +143,7 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
         let event = ["timestamp":Date().timeIntervalSince1970*1000, //ms
                      "kvparse":true,
                      "attributes":self.attributes,
-                     "rawstring":messageText!
+                     "rawstring":messageText!.replacingOccurrences(of: "\\", with: "")
                     ] as [String : Any]
 
         self.humioQueue.addOperation {
@@ -257,7 +257,7 @@ extension HumioCocoaLumberjackLogger : URLSessionDataDelegate {
 
 final class SimpleHumioLogFormatter: NSObject, DDLogFormatter {
     func format(message: DDLogMessage!) -> String! {
-        return "logLevel=\(self.logLevelString(message)) filename='\(message.fileName)' line=\(message.line) \(message.message)"
+        return "logLevel=\(self.logLevelString(message)) filename='\(message.fileName ?? "")' line=\(message.line) \(message.message ?? "")"
     }
     
     func logLevelString(_ logMessage: DDLogMessage!) -> String {
