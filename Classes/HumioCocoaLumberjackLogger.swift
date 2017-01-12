@@ -10,13 +10,14 @@ import CocoaLumberjack
 import CoreFoundation
 
 public struct HumioLoggerConfiguration {
-    var cachePolicy:NSURLRequest.CachePolicy = .useProtocolCachePolicy
-    var timeout:TimeInterval = 10
-    var postFrequency:TimeInterval = 10
-    var retryCount:Int = 2
-    var allowsCellularAccess = true
+    public var cachePolicy:NSURLRequest.CachePolicy = .useProtocolCachePolicy
+    public var timeout:TimeInterval = 10
+    public var postFrequency:TimeInterval = 10
+    public var retryCount:Int = 2
+    public var allowsCellularAccess = true
+    public var ommitEscapeCharacters = false
 
-    static func defaultConfiguration() -> HumioLoggerConfiguration {
+    public static func defaultConfiguration() -> HumioLoggerConfiguration {
         return HumioLoggerConfiguration()
     }
 }
@@ -55,6 +56,7 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
     private let postFrequency:TimeInterval
     private let retryCount:Int
     private let attributes:[String:String]
+    private let ommitEscapeCharacters:Bool
 
     private let bundleVersion = (Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? "unknown") as! String
     private let bundleShortVersion = (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "unknown") as! String
@@ -107,6 +109,7 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
         self._verbose = false
         self.postFrequency = configuration.postFrequency
         self.retryCount = configuration.retryCount
+        self.ommitEscapeCharacters = configuration.ommitEscapeCharacters
 
         let sessionConfiguration = URLSessionConfiguration.ephemeral
         sessionConfiguration.allowsCellularAccess = configuration.allowsCellularAccess
@@ -143,7 +146,7 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
         let event = ["timestamp":Date().timeIntervalSince1970*1000, //ms
                      "kvparse":true,
                      "attributes":self.attributes,
-                     "rawstring":messageText!.replacingOccurrences(of: "\\", with: "")
+                     "rawstring":ommitEscapeCharacters ? messageText!.replacingOccurrences(of: "\\", with: "") : messageText!
                     ] as [String : Any]
 
         self.humioQueue.addOperation {
