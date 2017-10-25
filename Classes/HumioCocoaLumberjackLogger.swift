@@ -61,6 +61,8 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
     private let bundleVersion = (Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? "unknown") as! String
     private let bundleShortVersion = (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "unknown") as! String
     private let deviceName = UIDevice.current.name
+    private let deviceSystemVersion = UIDevice.current.systemVersion
+    private let deviceModel = UIDevice.current.model
 
     fileprivate let humioQueue:OperationQueue
     private var timer:Timer?
@@ -120,7 +122,7 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
         self.humioQueue = OperationQueue()
         humioQueue.qualityOfService = .background
         humioQueue.maxConcurrentOperationCount = 1
-        self.attributes = ["loggerId":self.loggerId, "deviceName":self.deviceName, "CFBundleVersion":self.bundleVersion, "CFBundleShortVersionString":self.bundleShortVersion]
+        self.attributes = ["loggerId":self.loggerId, "deviceName":self.deviceName, "CFBundleVersion":self.bundleVersion, "CFBundleShortVersionString":self.bundleShortVersion, "systemVersion":self.deviceSystemVersion, "deviceModel":self.deviceModel]
 
         super.init()
         
