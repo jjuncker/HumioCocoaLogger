@@ -62,7 +62,7 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
     private let bundleShortVersion = (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "unknown") as! String
     private let deviceName = UIDevice.current.name
     private let deviceSystemVersion = UIDevice.current.systemVersion
-    private let deviceModel = UIDevice.current.model
+    private let deviceModel:String
 
     fileprivate let humioQueue:OperationQueue
     private var timer:Timer?
@@ -101,6 +101,13 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
         guard let space = setSpace, let token = setToken, space.characters.count > 0 && token.characters.count > 0 else {
             fatalError("dataSpace [\(setSpace)] or accessToken [\(setToken)] not properly set for humio")
         }
+
+        var systemInfo = utsname() ; uname(&systemInfo)
+        let identifier = Mirror(reflecting: systemInfo.machine).children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        self.deviceModel = identifier
 
         self.humioServiceUrl = serviceUrl ?? URL(string: String(format: HumioCocoaLumberjackLogger.HUMIO_ENDPOINT_FORMAT, space))!
         self.accessToken = setToken!
