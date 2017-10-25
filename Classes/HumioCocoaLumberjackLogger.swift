@@ -27,8 +27,8 @@ public protocol HumioLogger: DDLogger  {
 }
 
 public class HumioLoggerFactory {
-    public class func createLogger(accessToken:String?=nil, dataSpace:String?=nil, loggerId:String=NSUUID().uuidString, tags:[String:String] = HumioLoggerFactory.defaultTags(), configuration:HumioLoggerConfiguration=HumioLoggerConfiguration.defaultConfiguration()) -> HumioLogger {
-        return HumioCocoaLumberjackLogger(accessToken: accessToken, dataSpace: dataSpace, loggerId:loggerId, tags: tags, configuration: configuration)
+    public class func createLogger(serviceUrl:URL? = nil, accessToken:String?=nil, dataSpace:String?=nil, loggerId:String=NSUUID().uuidString, tags:[String:String] = HumioLoggerFactory.defaultTags(), configuration:HumioLoggerConfiguration=HumioLoggerConfiguration.defaultConfiguration()) -> HumioLogger {
+        return HumioCocoaLumberjackLogger(accessToken: accessToken, dataSpace: dataSpace, serviceUrl:serviceUrl, loggerId:loggerId, tags: tags, configuration: configuration)
     }
 
     public class func defaultTags() -> [String:String] {
@@ -87,7 +87,7 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
     }
     // ###########################################################################
     
-    init(accessToken:String?=nil, dataSpace:String?=nil, loggerId:String, tags:[String:String], configuration:HumioLoggerConfiguration) {
+    init(accessToken:String?=nil, dataSpace:String?=nil, serviceUrl:URL? = nil, loggerId:String, tags:[String:String], configuration:HumioLoggerConfiguration) {
         self.loggerId = loggerId
 
         var setToken:String? = accessToken
@@ -100,7 +100,7 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
             fatalError("dataSpace [\(setSpace)] or accessToken [\(setToken)] not properly set for humio")
         }
 
-        self.humioServiceUrl = URL(string: String(format: HumioCocoaLumberjackLogger.HUMIO_ENDPOINT_FORMAT, space))!
+        self.humioServiceUrl = serviceUrl ?? URL(string: String(format: HumioCocoaLumberjackLogger.HUMIO_ENDPOINT_FORMAT, space))!
         self.accessToken = setToken!
 
         self.cachePolicy = configuration.cachePolicy
@@ -195,7 +195,6 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
             
             request.httpBody = jsonData
             request.httpMethod = "POST"
-
 
             return request
         } catch {
