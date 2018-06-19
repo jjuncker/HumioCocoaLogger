@@ -60,7 +60,6 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
 
     private let bundleVersion = (Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? "unknown") as! String
     private let bundleShortVersion = (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "unknown") as! String
-    private let deviceName = UIDevice.current.name
     private let deviceSystemVersion = UIDevice.current.systemVersion
     private let deviceModel:String
 
@@ -89,7 +88,7 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
     }
     // ###########################################################################
     
-    init(accessToken:String?=nil, dataSpace:String?=nil, serviceUrl:URL? = nil, loggerId:String, tags:[String:String], configuration:HumioLoggerConfiguration) {
+    init(accessToken:String?=nil, dataSpace:String?=nil, serviceUrl:URL? = nil, additionalAttributes:[String:String] = [:], loggerId:String, tags:[String:String], configuration:HumioLoggerConfiguration) {
         self.loggerId = loggerId
 
         var setToken:String? = accessToken
@@ -129,7 +128,12 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
         self.humioQueue = OperationQueue()
         humioQueue.qualityOfService = .background
         humioQueue.maxConcurrentOperationCount = 1
-        self.attributes = ["loggerId":self.loggerId, "deviceName":self.deviceName, "CFBundleVersion":self.bundleVersion, "CFBundleShortVersionString":self.bundleShortVersion, "systemVersion":self.deviceSystemVersion, "deviceModel":self.deviceModel]
+
+        var attributes:[String: String] = ["loggerId":self.loggerId, "CFBundleVersion":self.bundleVersion, "CFBundleShortVersionString":self.bundleShortVersion, "systemVersion":self.deviceSystemVersion, "deviceModel":self.deviceModel]
+        for (key, value) in additionalAttributes {
+            attributes[key] = value
+        }
+        self.attributes = attributes
 
         super.init()
         
