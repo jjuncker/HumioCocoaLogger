@@ -27,8 +27,8 @@ public protocol HumioLogger: DDLogger  {
 }
 
 public class HumioLoggerFactory {
-    public class func createLogger(serviceUrl:URL? = nil, accessToken:String?=nil, dataSpace:String?=nil, loggerId:String=NSUUID().uuidString, tags:[String:String] = HumioLoggerFactory.defaultTags(), configuration:HumioLoggerConfiguration=HumioLoggerConfiguration.defaultConfiguration()) -> HumioLogger {
-        return HumioCocoaLumberjackLogger(accessToken: accessToken, dataSpace: dataSpace, serviceUrl:serviceUrl, loggerId:loggerId, tags: tags, configuration: configuration)
+    public class func createLogger(serviceUrl:URL? = nil, accessToken:String?=nil, dataSpace:String?=nil, additionalAttributes:[String:String] = [:], loggerId:String=NSUUID().uuidString, tags:[String:String] = HumioLoggerFactory.defaultTags(), configuration:HumioLoggerConfiguration=HumioLoggerConfiguration.defaultConfiguration()) -> HumioLogger {
+        return HumioCocoaLumberjackLogger(accessToken: accessToken, dataSpace: dataSpace, serviceUrl:serviceUrl, additionalAttributes:additionalAttributes, loggerId:loggerId, tags: tags, configuration: configuration)
     }
 
     public class func defaultTags() -> [String:String] {
