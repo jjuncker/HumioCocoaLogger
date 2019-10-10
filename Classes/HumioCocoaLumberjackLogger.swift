@@ -97,8 +97,8 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
         var setSpace:String? = dataSpace
         setSpace = setSpace ?? Bundle.main.infoDictionary!["HumioDataSpace"] as? String
 
-        guard let space = setSpace, let token = setToken, space.characters.count > 0 && token.characters.count > 0 else {
-            fatalError("dataSpace [\(setSpace)] or accessToken [\(setToken)] not properly set for humio")
+        guard let space = setSpace, let token = setToken, space.count > 0 && token.count > 0 else {
+            fatalError("dataSpace [\(String(describing: setSpace))] or accessToken [\(String(describing: setToken))] not properly set for humio")
         }
 
         var systemInfo = utsname() ; uname(&systemInfo)
@@ -150,16 +150,16 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
     }
 
 
-    override func log(message: DDLogMessage!) {
+    override func log(message: DDLogMessage) {
         var messageText = message.message
-        if let logFormatter = internalLogFormatter {
-            messageText = logFormatter.format(message: message)
+        if let logFormatter = internalLogFormatter, let formatted = logFormatter.format(message: message) {
+            messageText = formatted
         }
 
         let event = ["timestamp":Date().timeIntervalSince1970*1000, //ms
                      "kvparse":true,
                      "attributes":self.attributes,
-                     "rawstring":ommitEscapeCharacters ? messageText!.replacingOccurrences(of: "\\", with: "") : messageText!
+                     "rawstring":ommitEscapeCharacters ? messageText.replacingOccurrences(of: "\\", with: "") : messageText
                     ] as [String : Any]
 
         self.humioQueue.addOperation {
@@ -235,10 +235,12 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
             task.resume()
         }
     }
+    
+    
 
-    override var loggerName: String! {
+    override var loggerName: DDLoggerName {
         get {
-            return HumioCocoaLumberjackLogger.LOGGER_NAME
+            return DDLoggerName.file
         }
     }
     
@@ -256,7 +258,7 @@ extension HumioCocoaLumberjackLogger : URLSessionDataDelegate {
 
         if let originalRequest = task.originalRequest, error != nil {
             if self._verbose {
-                print("HumioCocoaLumberjackLogger: failed to send data, retrying in 5 seconds. Error \(error)")
+                print("HumioCocoaLumberjackLogger: failed to send data, retrying in 5 seconds. Error \(String(describing: error))")
             }
 
             DispatchQueue.global(qos: .background).asyncAfter(deadline: DispatchTime.now() + 5.0, execute: {
@@ -271,8 +273,8 @@ extension HumioCocoaLumberjackLogger : URLSessionDataDelegate {
 }
 
 final class SimpleHumioLogFormatter: NSObject, DDLogFormatter {
-    func format(message: DDLogMessage!) -> String! {
-        return "logLevel=\(self.logLevelString(message)) filename='\(message.fileName ?? "")' line=\(message.line) \(message.message ?? "")"
+    func format(message: DDLogMessage) -> String? {
+        return "logLevel=\(self.logLevelString(message)) filename='\(message.fileName )' line=\(message.line) \(message.message )"
     }
     
     func logLevelString(_ logMessage: DDLogMessage!) -> String {

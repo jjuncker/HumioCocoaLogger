@@ -12,8 +12,8 @@ import CocoaLumberjack
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
-    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
-        DDLog.add(DDTTYLogger.sharedInstance())
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        DDLog.add(DDTTYLogger.sharedInstance)
 
         //        let logger = HumioLoggerFactory.createLogger("your token here", dataSpace:"some dataspace")
 
