@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'HumioCocoaLumberjackLogger'
-  s.version  = '3.0.2'
+  s.version  = '3.0.3'
   s.license = 'MIT'
   s.summary  = 'Sends your Lumberjack logging directly to Humio'
   s.homepage = 'https://cloud.humio.com'
@@ -9,6 +9,6 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '8.0'
   s.source_files = 'Classes/*.swift'
-  s.dependency 'CocoaLumberjack', '~> 3.0.0'
+  s.dependency 'CocoaLumberjack/Swift', '~> 3.6.0'
   
 end

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BF648C421E27C84600A8D493 /* HumioCocoaLumberjackLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF648C411E27C84600A8D493 /* HumioCocoaLumberjackLogger.swift */; };
-		BF765B5F1DBA27E100250B7B /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		BF765B5F1DBA27E100250B7B /* (null) in Resources */ = {isa = PBXBuildFile; };
 		BFC7A7A11D05830D000DC351 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC7A7A01D05830D000DC351 /* AppDelegate.swift */; };
 		BFC7A7A31D05830D000DC351 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC7A7A21D05830D000DC351 /* ViewController.swift */; };
 		BFC7A7A61D05830D000DC351 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFC7A7A41D05830D000DC351 /* Main.storyboard */; };
@@ -160,7 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFC7A7AB1D05830D000DC351 /* LaunchScreen.storyboard in Resources */,
-				BF765B5F1DBA27E100250B7B /* BuildFile in Resources */,
+				BF765B5F1DBA27E100250B7B /* (null) in Resources */,
 				BFC7A7A81D05830D000DC351 /* Assets.xcassets in Resources */,
 				BFC7A7A61D05830D000DC351 /* Main.storyboard in Resources */,
 			);
@@ -288,7 +288,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -330,7 +330,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
