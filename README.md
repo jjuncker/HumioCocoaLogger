@@ -1,5 +1,5 @@
 # HumioCocoaLogger
-**HumioCocoaLogger** is a Logger for [CocoaLumberJack](https://github.com/CocoaLumberjack/CocoaLumberjack) which allows loggin directly into [Humios](http://humio.com/)
+**HumioCocoaLogger** is a Logger for [CocoaLumberJack](https://github.com/CocoaLumberjack/CocoaLumberjack) which allows loggin directly into [Humio](http://humio.com/)
 
 ##### Swift version via CocoaPods
 ```ruby
@@ -10,7 +10,7 @@ pod 'HumioCocoaLumberjackLogger', :git => "https://github.com/jjuncker/HumioCoco
 ```
 
 ##### API access
-You can specify your access token and dataspace by setting this information in your info.plist file or by parameters (see belov)
+You can specify your access token and dataspace by setting this information in your info.plist file or by parameters (see below)
 ```xml
 	<key>HumioAccessToken</key>
 	<string>yourAccessKeyHere</string>
