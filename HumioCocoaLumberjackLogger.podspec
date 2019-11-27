@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'HumioCocoaLumberjackLogger'
-  s.version  = '3.0.3'
+  s.version  = '3.0.4'
   s.license = 'MIT'
   s.summary  = 'Sends your Lumberjack logging directly to Humio'
   s.homepage = 'https://cloud.humio.com'

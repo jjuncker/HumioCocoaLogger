@@ -240,7 +240,7 @@ class HumioCocoaLumberjackLogger: DDAbstractLogger {
 
     override var loggerName: DDLoggerName {
         get {
-            return DDLoggerName.file
+            return DDLoggerName.os
         }
     }
     
